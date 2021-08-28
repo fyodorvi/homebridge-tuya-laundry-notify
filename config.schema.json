@@ -4,13 +4,98 @@
   "singular": true,
   "schema": {
     "type": "object",
-    "properties": {
-      "name": {
-        "title": "Name",
-        "type": "string",
-        "required": true,
-        "default": "Example Dynamic Platform"
-      }
+      "properties": {
+        "pushed": {
+          "type": "object",
+          "properties": {
+            "appKey": {
+              "title": "App Key",
+              "type": "string",
+              "required": true
+            },
+            "appSecret": {
+              "title": "App Secret",
+              "type": "string",
+              "required": true
+            },
+            "channelAlias": {
+              "title": "Channel Alias",
+              "type": "string",
+              "required": true
+            }
+          }
+        },
+        "laundryDevices": {
+          "title": "Laundry Devices",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "title": "Name",
+                "type": "string",
+                "required": true,
+                "description": "Device name, used for logging"
+              },
+              "id": {
+                "title": "Tuya Device ID",
+                "type": "string",
+                "required": true
+              },
+              "key": {
+                "title": "Tuya Device Key",
+                "type": "string",
+                "required": true
+              },
+              "dpsId": {
+                "title": "DPS ID",
+                "type": "string",
+                "required": true,
+                "description": "Property ID of the DPS return that represents current power value"
+              },
+              "startValue": {
+                "title": "Start Value",
+                "type": "number",
+                "required": true,
+                "description": "Expected power value when device started the cycle"
+              },
+              "startDuration": {
+                "title": "Start Duration",
+                "type": "number",
+                "required": true,
+                "description": "Duration in seconds that start value needs to hold until device is considered to be active."
+              },
+              "endValue": {
+                "title": "End Value",
+                "type": "number",
+                "required": true,
+                "description": "Expected power value when device finished the cycle"
+              },
+              "endDuration": {
+                "title": "End Duration",
+                "type": "number",
+                "required": true,
+                "description": "Duration in seconds that end value needs to hold until device is considered to be inactive."
+              },
+              "startMessage": {
+                "title": "Start Message",
+                "type": "string",
+                "required": false,
+                "description": "Optional push message when device starts the cycle",
+                "default": "Washing started..."
+              },
+              "endMessage": {
+                "title": "Start Message",
+                "type": "string",
+                "required": true,
+                "description": "Push message when device starts the cycle",
+                "default": "Washing finished!"
+              }
+            }
+          }
+        }
     }
-  }
+  },
+  "form": null,
+  "display": null
 }

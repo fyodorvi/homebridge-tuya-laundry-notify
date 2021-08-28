@@ -1,12 +1,10 @@
-import {API, Logger, Service, Characteristic, PlatformConfig} from 'homebridge';
+import {API, Logger, PlatformConfig} from 'homebridge';
 import {NotifyConfig} from './interfaces/notifyConfig';
 import {IndependentPlatformPlugin} from 'homebridge/lib/api';
 import {PushGateway} from './lib/pushGateway';
 import {LaundryDevice} from './lib/laundryDevice';
 
 export class TuyaLaundryNotifyPlatform implements IndependentPlatformPlugin {
-  public readonly Service: typeof Service = this.api.hap.Service;
-  public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
   public readonly typedConfig: PlatformConfig & NotifyConfig;
 
   constructor(
@@ -25,9 +23,6 @@ export class TuyaLaundryNotifyPlatform implements IndependentPlatformPlugin {
       }
     }
 
-    this.log.debug('Finished initializing platform:', this.typedConfig.name);
-
-    // to start discovery of new accessories.
     this.api.on('didFinishLaunching', () => {
       if (this.typedConfig.laundryDevices) {
         for (const laundryDevice of laundryDevices) {
