@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "TuyaLaundryNotify",
   "pluginType": "platform",
   "singular": true,
   "schema": {
