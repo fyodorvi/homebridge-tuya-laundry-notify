@@ -1,8 +1,8 @@
-import { LaundryDeviceConfig } from "../interfaces/notifyConfig";
-import {PushGateway} from "./pushGateway";
+import { LaundryDeviceConfig } from '../interfaces/notifyConfig';
+import {PushGateway} from './pushGateway';
 import {DPSData} from 'tuyapi';
-import {Logger} from "homebridge";
-import { DateTime } from "luxon";
+import {Logger} from 'homebridge';
+import { DateTime } from 'luxon';
 import {LaundryDevice} from './laundryDevice';
 
 export class LaundryDeviceTracker {

@@ -1,6 +1,6 @@
-import {PushedConfig} from "../interfaces/notifyConfig";
-import {Logger} from "homebridge";
-import axios from "axios";
+import {PushedConfig} from '../interfaces/notifyConfig';
+import {Logger} from 'homebridge';
+import axios from 'axios';
 import FormData from 'form-data';
 
 export class PushGateway {

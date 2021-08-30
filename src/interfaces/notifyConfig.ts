@@ -1,5 +1,3 @@
-import {PlatformConfig} from "homebridge";
-
 export interface NotifyConfig {
     pushed: PushedConfig;
     laundryDevices: LaundryDeviceConfig[];
