@@ -1,7 +1,7 @@
 declare module 'tuyapi' {
   import * as EventEmitter from 'events';
 
-  export interface TuyAPI extends EventEmitter {
+  interface TuyAPI extends EventEmitter {
     new (config: { id: string; key: string });
     find(): Promise<boolean | []>;
     refresh(options: { schema: boolean }): Promise<void>;

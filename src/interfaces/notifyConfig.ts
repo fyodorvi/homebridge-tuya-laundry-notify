@@ -20,6 +20,6 @@ export interface LaundryDeviceConfig {
     startDuration: number;
     endValue: number;
     endDuration: number;
-    startMessage: string;
+    startMessage?: string;
     endMessage: string;
 }

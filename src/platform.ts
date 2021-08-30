@@ -27,7 +27,7 @@ export class TuyaLaundryNotifyPlatform implements IndependentPlatformPlugin {
       if (this.typedConfig.laundryDevices) {
         for (const laundryDevice of laundryDevices) {
           try {
-            //laundryDevice.init();
+            laundryDevice.init();
           } catch (error) {
             this.log.error(`Failed to init ${laundryDevice.config.name}`, error);
           }
