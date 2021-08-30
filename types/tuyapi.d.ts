@@ -4,12 +4,12 @@ declare module 'tuyapi' {
   export interface TuyAPI extends EventEmitter {
     new (config: { id: string; key: string });
     find(): Promise<boolean | []>;
-    refresh(): Promise<void>;
+    refresh(options: { schema: boolean }): Promise<void>;
     connect(): Promise<boolean>;
-    on(event: 'dp-refresh', listener: (data: DPData) => void): this;
+    on(event: 'dp-refresh', listener: (data: DPSData) => void): this;
   }
 
-  export interface DPData {
+  export interface DPSData {
     dps: { [index: string]: any }
   }
 

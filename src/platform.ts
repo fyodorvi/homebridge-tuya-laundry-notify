@@ -2,7 +2,7 @@ import {API, Logger, PlatformConfig} from 'homebridge';
 import {NotifyConfig} from './interfaces/notifyConfig';
 import {IndependentPlatformPlugin} from 'homebridge/lib/api';
 import {PushGateway} from './lib/pushGateway';
-import {LaundryDevice} from './lib/laundryDevice';
+import {LaundryDeviceTracker} from './lib/laundryDeviceTracker';
 
 export class TuyaLaundryNotifyPlatform implements IndependentPlatformPlugin {
   public readonly typedConfig: PlatformConfig & NotifyConfig;
@@ -15,11 +15,11 @@ export class TuyaLaundryNotifyPlatform implements IndependentPlatformPlugin {
     this.typedConfig = config as PlatformConfig & NotifyConfig;
 
     const pushGateway = new PushGateway(log, this.typedConfig.pushed);
-    const laundryDevices: LaundryDevice[] = [];
+    const laundryDevices: LaundryDeviceTracker[] = [];
 
     if (this.typedConfig.laundryDevices) {
       for (const laundryDevice of this.typedConfig.laundryDevices) {
-        laundryDevices.push(new LaundryDevice(log, pushGateway, laundryDevice));
+        laundryDevices.push(new LaundryDeviceTracker(log, pushGateway, laundryDevice));
       }
     }
 
@@ -27,7 +27,7 @@ export class TuyaLaundryNotifyPlatform implements IndependentPlatformPlugin {
       if (this.typedConfig.laundryDevices) {
         for (const laundryDevice of laundryDevices) {
           try {
-            laundryDevice.init();
+            //laundryDevice.init();
           } catch (error) {
             this.log.error(`Failed to init ${laundryDevice.config.name}`, error);
           }
