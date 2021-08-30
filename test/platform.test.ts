@@ -14,7 +14,7 @@ jest.mock('../src/lib/pushGateway');
 const MockedLaundryDeviceTracker = mocked(LaundryDeviceTracker, true);
 const MockedPushGateway = mocked(PushGateway, true);
 
-describe('Platform', () => {
+describe('TuyaLaundryNotifyPlatform', () => {
   let config: PlatformConfig & NotifyConfig;
   let api: HomebridgeAPI;
 
