@@ -7,8 +7,10 @@ export async function IdentifyCommand(argv: { id: string; key: string }) {
   const log = new Logger();
   const device = new LaundryDevice(log, argv.id, argv.key);
 
-  device.on('connected', (firstRun) => {
+  let firstRun = true;
+  device.on('connected', () => {
     if (firstRun) {
+      firstRun = false;
       log.info('Power on your appliance to observe the values.');
     }
   });
