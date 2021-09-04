@@ -7,10 +7,10 @@ declare module 'tuyapi' {
     refresh(options: { schema: boolean }): Promise<void>;
     connect(): Promise<boolean>;
     disconnect();
-    on(event: 'dp-refresh', listener: (data: DPSData) => void): this;
+    on(event: 'dp-refresh', listener: (data: DeviceData) => void): this;
   }
 
-  export interface DPSData {
+  export interface DeviceData {
     dps: { [index: string]: any }
   }
 

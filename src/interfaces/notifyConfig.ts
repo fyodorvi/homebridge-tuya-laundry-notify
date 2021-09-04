@@ -13,7 +13,7 @@ export interface LaundryDeviceConfig {
     name: string;
     id: string;
     key: string;
-    dpsId: string;
+    powerValueId: string;
     startValue: number;
     startDuration: number;
     endValue: number;

@@ -47,8 +47,8 @@
                 "type": "string",
                 "required": true
               },
-              "dpsId": {
-                "title": "DPS ID",
+              "powerValueId": {
+                "title": "Power Value ID",
                 "type": "string",
                 "required": true,
                 "description": "Property ID of the DPS return that represents current power value"

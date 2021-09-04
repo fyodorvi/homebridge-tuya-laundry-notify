@@ -1,6 +1,6 @@
 import { LaundryDeviceConfig } from '../interfaces/notifyConfig';
 import {PushGateway} from './pushGateway';
-import {DPSData} from 'tuyapi';
+import {DeviceData} from 'tuyapi';
 import {Logger} from 'homebridge';
 import { DateTime } from 'luxon';
 import {LaundryDevice} from './laundryDevice';
@@ -22,12 +22,12 @@ export class LaundryDeviceTracker {
 
   public init() {
     if (this.config.startValue < this.config.endValue) {
-      throw new Error('startValue cannot be lower than endValue.')
+      throw new Error('startValue cannot be lower than endValue.');
     }
 
     this.device = new LaundryDevice(this.log, this.config.id, this.config.key, this.config.name);
 
-    this.device.on('data', (data: DPSData) => {
+    this.device.on('data', (data: DeviceData) => {
       this.incomingData(data).catch((error: Error) => {
         this.log.error(`Error processing incoming data from ${this.config.name}`, error);
       });
@@ -60,9 +60,9 @@ export class LaundryDeviceTracker {
     this.device.init();
   }
 
-  private async incomingData(data: DPSData) {
-    if (data.dps[this.config.dpsId] !== undefined) {
-      const value = data.dps[this.config.dpsId];
+  private async incomingData(data: DeviceData) {
+    if (data.dps[this.config.powerValueId] !== undefined) {
+      const value = data.dps[this.config.powerValueId];
 
       if (value > this.config.startValue) {
         if (!this.isActive && !this.startDetected) {

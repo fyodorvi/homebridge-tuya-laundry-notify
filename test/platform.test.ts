@@ -47,7 +47,7 @@ describe('TuyaLaundryNotifyPlatform', () => {
         name: '3',
         startValue: 4,
         endValue: 5,
-        dpsId: '6',
+        powerValueId: '6',
         startDuration: 7,
         endDuration: 8,
         endMessage: '9',

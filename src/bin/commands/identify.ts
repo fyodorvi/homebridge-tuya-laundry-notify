@@ -16,9 +16,10 @@ export async function IdentifyCommand(argv: { id: string; key: string }) {
   const existingDPS: { [key: string]: string } = {};
 
   device.on('data', (data) => {
+    // eslint-disable-next-line no-console
     console.clear();
     Object.assign(existingDPS, data.dps);
-    const tableData: string[][] = [['DPS ID', 'Value']];
+    const tableData: string[][] = [['Property ID', 'Value']];
     for (const [key, value] of Object.entries(existingDPS)) {
       tableData.push([key, value]);
     }
@@ -27,7 +28,7 @@ export async function IdentifyCommand(argv: { id: string; key: string }) {
     log.info('Make sure plugged in appliance is consuming power (operating).');
     log.info('One of the values above will represent power consumption.');
     log.info('Compare to the values displayed in Tuya app.');
-    log.info('When identified the correct DPS ID, run tuya-laundry track');
+    log.info('When identified the correct Power Property ID, run tuya-laundry track');
     log.info('and run the appliance to record power fluctuation during operation.');
   });
 

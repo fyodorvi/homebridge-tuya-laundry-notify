@@ -2,14 +2,14 @@ import {Logger} from 'homebridge/lib/logger';
 import {LaundryDevice} from '../../lib/laundryDevice';
 import {DateTime} from 'luxon';
 
-export async function TrackCommand(argv: { id: string; key: string; dps: string; margin?: number }) {
+export async function TrackCommand(argv: { id: string; key: string; pid: string; margin?: number }) {
   Logger.setDebugEnabled(true);
   const log = new Logger();
   const device = new LaundryDevice(log, argv.id, argv.key);
 
   device.on('connected', (firstRun) => {
     if (firstRun) {
-      log.info('Power on your appliance and start the operation now, power values will be printed below.');
+      log.info('Power on your appliance and start the operation now, power value will be printed below.');
     }
     if (argv.margin) {
       log.info(`Showing fluctuations of at least ${argv.margin}% or otherwise once in 60 seconds`);
@@ -24,8 +24,8 @@ export async function TrackCommand(argv: { id: string; key: string; dps: string;
     if (!startTime) {
       startTime = DateTime.now();
     }
-    if (data.dps[argv.dps] !== undefined) {
-      const currentDPS = data.dps[argv.dps];
+    if (data.dps[argv.pid] !== undefined) {
+      const currentDPS = data.dps[argv.pid];
 
       if (argv.margin && previousDPS) {
         const percentageChange = 100 * Math.abs((previousDPS - currentDPS) / ((previousDPS + currentDPS) / 2));
@@ -37,7 +37,7 @@ export async function TrackCommand(argv: { id: string; key: string; dps: string;
       previousDPS = currentDPS;
       previousDPSTime = DateTime.now();
 
-      log.info(`DPS value update: ${currentDPS} (started ${startTime.toRelative({ base: DateTime.now() })})`,);
+      log.info(`Power value update: ${currentDPS} (started ${startTime.toRelative({ base: DateTime.now() })})`,);
     }
   });
 
