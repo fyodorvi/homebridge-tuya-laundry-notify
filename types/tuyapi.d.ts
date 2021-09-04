@@ -6,6 +6,7 @@ declare module 'tuyapi' {
     find(): Promise<boolean | []>;
     refresh(options: { schema: boolean }): Promise<void>;
     connect(): Promise<boolean>;
+    disconnect();
     on(event: 'dp-refresh', listener: (data: DPSData) => void): this;
   }
 
