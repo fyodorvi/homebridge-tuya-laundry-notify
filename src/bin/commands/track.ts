@@ -7,9 +7,12 @@ export async function TrackCommand(argv: { id: string; key: string; pid: string;
   const log = new Logger();
   const device = new LaundryDevice(log, argv.id, argv.key);
 
-  device.on('connected', (firstRun) => {
+  let firstRun = true;
+
+  device.on('connected', () => {
     if (firstRun) {
       log.info('Power on your appliance and start the operation now, power value will be printed below.');
+      firstRun = false;
     }
     if (argv.margin) {
       log.info(`Showing fluctuations of at least ${argv.margin}% or otherwise once in 60 seconds`);
@@ -21,9 +24,6 @@ export async function TrackCommand(argv: { id: string; key: string; pid: string;
   let startTime: DateTime;
 
   device.on('data', (data) => {
-    if (!startTime) {
-      startTime = DateTime.now();
-    }
     if (data.dps[argv.pid] !== undefined) {
       const currentDPS = data.dps[argv.pid];
 
@@ -37,7 +37,12 @@ export async function TrackCommand(argv: { id: string; key: string; pid: string;
       previousDPS = currentDPS;
       previousDPSTime = DateTime.now();
 
-      log.info(`Power value update: ${currentDPS} (started ${startTime.toRelative({ base: DateTime.now() })})`,);
+      if (!startTime) {
+        startTime = DateTime.now();
+        log.info(`Power value update: ${currentDPS}`);
+      } else {
+        log.info(`Power value update: ${currentDPS} (started ${startTime.toRelative({ base: DateTime.now() })})`);
+      }
     }
   });
 
