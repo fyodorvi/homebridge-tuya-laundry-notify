@@ -16,7 +16,7 @@ export class LaundryDeviceTracker {
   constructor(
     public readonly log: Logger,
     public readonly pushGateway: PushGateway,
-    public readonly config: LaundryDeviceConfig,
+    public config: LaundryDeviceConfig,
   ) {
   }
 
@@ -28,9 +28,7 @@ export class LaundryDeviceTracker {
     this.device = new LaundryDevice(this.log, this.config.id, this.config.key, this.config.name);
 
     this.device.on('data', (data: DeviceData) => {
-      this.incomingData(data).catch((error: Error) => {
-        this.log.error(`Error processing incoming data from ${this.config.name}`, error);
-      });
+      this.incomingData(data);
     });
 
     this.device.on('refresh', () => {
@@ -60,7 +58,7 @@ export class LaundryDeviceTracker {
     this.device.init();
   }
 
-  private async incomingData(data: DeviceData) {
+  private incomingData(data: DeviceData) {
     if (data.dps[this.config.powerValueId] !== undefined) {
       const value = data.dps[this.config.powerValueId];
 

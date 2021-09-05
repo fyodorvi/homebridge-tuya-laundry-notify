@@ -11,8 +11,8 @@ import {mocked} from 'ts-jest/utils';
 jest.mock('../src/lib/laundryDeviceTracker');
 jest.mock('../src/lib/pushGateway');
 
-const MockedLaundryDeviceTracker = mocked(LaundryDeviceTracker, true);
-const MockedPushGateway = mocked(PushGateway, true);
+const mockedLaundryDeviceTracker = mocked(LaundryDeviceTracker, true);
+const mockedPushGateway = mocked(PushGateway, true);
 
 describe('TuyaLaundryNotifyPlatform', () => {
   let config: PlatformConfig & NotifyConfig;
@@ -36,7 +36,7 @@ describe('TuyaLaundryNotifyPlatform', () => {
       appKey: '3',
     };
     new TuyaLaundryNotifyPlatform(log, config, api);
-    expect(MockedPushGateway).toHaveBeenCalledWith(log, config.pushed);
+    expect(mockedPushGateway).toHaveBeenCalledWith(log, config.pushed);
   });
 
   it('should init laundry devices based on the config with correct params', () => {
@@ -55,9 +55,31 @@ describe('TuyaLaundryNotifyPlatform', () => {
     ];
     new TuyaLaundryNotifyPlatform(log, config, api);
     api.emit('didFinishLaunching');
-    const args = MockedLaundryDeviceTracker.mock.calls[0];
+    const args = mockedLaundryDeviceTracker.mock.calls[0];
     expect(args[0]).toEqual(log);
-    expect(args[1]).toBeInstanceOf(MockedPushGateway);
+    expect(args[1]).toBeInstanceOf(mockedPushGateway);
     expect(args[2]).toEqual(config.laundryDevices[0]);
+  });
+
+  it('should not throw if initialization failed on a laundry device', () => {
+    config.laundryDevices = [
+      {
+        id: '1',
+        key: '2',
+        name: 'device',
+        startValue: 4,
+        endValue: 5,
+        powerValueId: '6',
+        startDuration: 7,
+        endDuration: 8,
+        endMessage: '9',
+      },
+    ];
+    new TuyaLaundryNotifyPlatform(log, config, api);
+    mockedLaundryDeviceTracker.mock.instances[0].config = config.laundryDevices[0]
+    jest.spyOn(mockedLaundryDeviceTracker.prototype, 'init').mockImplementation(() => {
+      throw new Error();
+    });
+    expect(() => api.emit('didFinishLaunching')).not.toThrow();
   });
 });

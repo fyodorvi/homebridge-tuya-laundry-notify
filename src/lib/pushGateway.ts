@@ -8,9 +8,8 @@ export class PushGateway {
   // TODO: make sure message sending is capped at x per minute so we avoid spamming
   constructor(
     private readonly log: Logger,
-    private readonly config: PushedConfig
+    private readonly config: PushedConfig,
   ) {
-
   }
 
   public send(message: string) {
