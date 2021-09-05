@@ -31,4 +31,9 @@ jobs:
           CI: true
 
       - name: Test the project
-        run: npm run test
+        run: npm run test:ci
+
+      - name: Generating coverage badges
+          uses: actions/jest-badges-action@latest
+            with:
+              branches: master
