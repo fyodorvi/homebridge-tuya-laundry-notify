@@ -71,6 +71,7 @@ export class LaundryDevice extends EventEmitter {
   }
 
   public destroy() {
+    this.connected = false;
     this.device.removeAllListeners();
     if (this.connectTimeout) {
       clearTimeout(this.connectTimeout);
