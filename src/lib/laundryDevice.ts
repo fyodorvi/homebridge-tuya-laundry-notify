@@ -59,6 +59,7 @@ export class LaundryDevice extends EventEmitter {
   }
 
   private startRefresh() {
+    this.stopRefresh(); // clearing any in-flight refresh there
     this.refreshInterval = setInterval(() => {
       if (this.connected) {
         // I could never get this promise to resolve with my plug
