@@ -23,6 +23,10 @@ describe('TuyaLaundryNotifyPlatform', () => {
     config = { ...emptyConfig };
   });
 
+  afterEach(() => {
+    mockedLaundryDeviceTracker.mockReset();
+  });
+
   it('should not fail if there are no laundry devices provided', () => {
     config.laundryDevices = [];
     new TuyaLaundryNotifyPlatform(log, config, api);
