@@ -1,150 +1,122 @@
-
 <p align="center">
 
 <img src="https://github.com/homebridge/branding/raw/master/logos/homebridge-wordmark-logo-vertical.png" width="150">
 
 </p>
 
+<img src="resources/notifications.jpg" width="375">
 
-# Homebridge Platform Plugin Template
+# Homebridge Tuya Laundry Notify
 
-This is a template Homebridge platform plugin and can be used as a base to help you get started developing your own plugin.
+Homebridge plugin that lets you setup push notifications for your laundry appliances using Tuya smart plug with voltage meter.
 
-This template should be used in conjunction with the [developer documentation](https://developers.homebridge.io/). A full list of all supported service types, and their characteristics is available on this site.
+# Installation
 
-## Clone As Template
+Install this plugin using `npm i -g homebridge-tuya-laundry-notify`.
 
-Click the link below to create a new GitHub Repository using this template, or click the *Use This Template* button above.
+# Configuration
 
-<span align="center">
+The plugin does not expose any new home devices. It uses homebridge as a convenient place for configuration.
 
-### [Create New Repository From Template](https://github.com/homebridge/homebridge-plugin-template/generate)
+## Smart Plug
 
-</span>
+Any smart plug that support live voltage/power display in Tuya app should work, in theory. The only difference between plugs is Power Value Id - property id with live power consumption on the device.
 
-## Setup Development Environment
+### Getting device ID and Key
 
-To develop Homebridge plugins you must have Node.js 12 or later installed, and a modern code editor such as [VS Code](https://code.visualstudio.com/). This plugin template uses [TypeScript](https://www.typescriptlang.org/) to make development easier and comes with pre-configured settings for [VS Code](https://code.visualstudio.com/) and ESLint. If you are using VS Code install these extensions:
+There's a standard approach to get your Tuya device ID and Key, there's a bunch of manuals around Github, I used [this](https://www.youtube.com/watch?v=oq0JL_wicKg&t=522s) video. 
 
-* [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+### Identifying Power Value ID
 
-## Install Development Dependencies
+This plugin comes with a little CLI tool that helps you identify Power Value ID.
 
-Using a terminal, navigate to the project folder and run this command to install the development dependencies:
-
-```
-npm install
-```
-
-## Update package.json
-
-Open the [`package.json`](./package.json) and change the following attributes:
-
-* `name` - this should be prefixed with `homebridge-` or `@username/homebridge-` and contain no spaces or special characters apart from a dashes
-* `displayName` - this is the "nice" name displayed in the Homebridge UI
-* `repository.url` - Link to your GitHub repo
-* `bugs.url` - Link to your GitHub repo issues page
-
-When you are ready to publish the plugin you should set `private` to false, or remove the attribute entirely.
-
-## Update Plugin Defaults
-
-Open the [`src/settings.ts`](./src/settings.ts) file and change the default values:
-
-* `PLATFORM_NAME` - Set this to be the name of your platform. This is the name of the platform that users will use to register the plugin in the Homebridge `config.json`.
-* `PLUGIN_NAME` - Set this to be the same name you set in the [`package.json`](./package.json) file. 
-
-Open the [`config.schema.json`](./config.schema.json) file and change the following attribute:
-
-* `pluginAlias` - set this to match the `PLATFORM_NAME` you defined in the previous step.
-
-## Build Plugin
-
-TypeScript needs to be compiled into JavaScript before it can run. The following command will compile the contents of your [`src`](./src) directory and put the resulting code into the `dist` folder.
-
-```
-npm run build
-```
-
-## Link To Homebridge
-
-Run this command so your global install of Homebridge can discover the plugin in your development environment:
-
-```
-npm link
-```
-
-You can now start Homebridge, use the `-D` flag so you can see debug log messages in your plugin:
-
-```
-homebridge -D
-```
-
-## Watch For Changes and Build Automatically
-
-If you want to have your code compile automatically as you make changes, and restart Homebridge automatically between changes you can run:
-
-```
-npm run watch
-```
-
-This will launch an instance of Homebridge in debug mode which will restart every time you make a change to the source code. It will load the config stored in the default location under `~/.homebridge`. You may need to stop other running instances of Homebridge while using this command to prevent conflicts. You can adjust the Homebridge startup command in the [`nodemon.json`](./nodemon.json) file.
-
-## Customise Plugin
-
-You can now start customising the plugin template to suit your requirements.
-
-* [`src/platform.ts`](./src/platform.ts) - this is where your device setup and discovery should go.
-* [`src/platformAccessory.ts`](./src/platformAccessory.ts) - this is where your accessory control logic should go, you can rename or create multiple instances of this file for each accessory type you need to implement as part of your platform plugin. You can refer to the [developer documentation](https://developers.homebridge.io/) to see what characteristics you need to implement for each service type.
-* [`config.schema.json`](./config.schema.json) - update the config schema to match the config you expect from the user. See the [Plugin Config Schema Documentation](https://developers.homebridge.io/#/config-schema).
-
-## Versioning Your Plugin
-
-Given a version number `MAJOR`.`MINOR`.`PATCH`, such as `1.4.3`, increment the:
-
-1. **MAJOR** version when you make breaking changes to your plugin,
-2. **MINOR** version when you add functionality in a backwards compatible manner, and
-3. **PATCH** version when you make backwards compatible bug fixes.
-
-You can use the `npm version` command to help you with this:
+Install the plugin globally on your machine and run:
 
 ```bash
-# major update / breaking changes
-npm version major
-
-# minor update / new features
-npm version update
-
-# patch / bugfixes
-npm version patch
+tuya-laundry identify --id <device_id> --key <device_key>
 ```
 
-## Publish Package
+Make sure you have an appliance plugged into the smart plug and have it running. The tool will output live changes in properties and their values. On of them will be Power Value.
 
-When you are ready to publish your plugin to [npm](https://www.npmjs.com/), make sure you have removed the `private` attribute from the [`package.json`](./package.json) file then run:
+<!-- TODO: put example console output here -->
 
-```
-npm publish
-```
+### Monitoring Power Consumption
 
-If you are publishing a scoped plugin, i.e. `@username/homebridge-xxx` you will need to add `--access=public` to command the first time you publish.
+Once you figure out the Power Value Id you need to figure out actual value of your appliance when it's operating/finished. 
 
-#### Publishing Beta Versions
-
-You can publish *beta* versions of your plugin for other users to test before you release it to everyone.
+There's a second command you can use for that:
 
 ```bash
-# create a new pre-release version (eg. 2.1.0-beta.1)
-npm version prepatch --preid beta
-
-# publsh to @beta
-npm publish --tag=beta
+tuya-laundry track --id <device_id> --key <device_key> --pid <power_value_id> [--margin <margin_value>]
 ```
 
-Users can then install the  *beta* version by appending `@beta` to the install command, for example:
+Run the above command and use the appliance as you normally would - start the washing cycle and wait till it fully finished. The tool will output changes in power values and timestamps to the console. You can use `--margin` option to minimize spam in the out. Margin value is minimum percentage of the power value change that will trigger the output (e.g. `--margin 5` means it will only output new power value if the change was more than 5%).
 
+<!-- TODO: put example console output here -->
+
+## Pushed.co
+
+The plugin uses pushed.co service as a free (at the time of writing) and straightforward way to receive push on you devices.  
+
+You need to install https://pushed.co app on your phone, as well as create developer account with an app and a channel.
+
+Pushed.co configuration roughly goes like that:
+
+1. Create pushed.co account
+2. Switch account type to Developer account
+3. Create an app
+4. Create a channel
+5. Install the pushed.co app on your device
+6. Scan channel QR code to link it with your device
+7. Make a note of app key, app secret and channel alias for the configuration below
+
+## Homebridge config
+
+The example below contains comments, clean valid JSON version is here: [example/config.json](example/config.json) 
+
+```json5
+{
+  ...
+  "platforms": [
+    ...
+    /* The block you need to enable this plugin */
+    {
+      "platform": "TuyaLaundryNotify",
+      "pushed": {
+        "appKey": "tza3srI1qfDXaXEHdmYK",
+        "appSecret": "D814ZyxzevlLiEv5ZS4eegdzZG3jeYytALtFrtTeHOQ26NFEvWs1kCL3jxiGbHZu",
+        "channelAlias": "VFx7uM"
+      },
+      "laundryDevices": [
+        /* The block you need for each appliance */
+        {
+          // name is used for better logging
+          "name": "Washing Machine",
+          // Tuya smart plug id
+          "id": "424714575001911ed8d2",
+          // Tuya smart plug key
+          "key": "0a1f7b13a649766d",
+          // use tuya-laundry identify to find out the id
+          "powerValueId": "19",
+          // start power value that marks appliance active mode (greater or equal) 
+          "startValue": 20000,
+          // how many seconds start value should hold to mark appliance active mode 
+          "startDuration": 30,
+          // end power value that marks appliance finishing cycle (less or equal) 
+          "endValue": 300,
+          // how many seconds end value should hold to mark appliance finished
+          "endDuration": 30,
+          // optional start message, omit if you don't want to be notified
+          "startMessage": "⏳ Washing machine started the cycle!",
+          // optional start message, omit if you don't want to be notified 
+          "endMessage": "✅ Washing machine finished!"
+        }
+      ]
+    }
+    /* End of the block needed to enable this plugin */
+  ]
+  ...
+}
 ```
-sudo npm install -g homebridge-example-plugin@beta
-```
 
-
+You may add as many devices as you want, but make sure you're not exceeding Pushed.co push limits, at the time of writing it was 1000 a month for free.

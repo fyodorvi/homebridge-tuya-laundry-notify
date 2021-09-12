@@ -1,0 +1,26 @@
+{
+  "platforms": [
+    {
+      "platform": "TuyaLaundryNotify",
+      "pushed": {
+        "appKey": "tza3srI1qfDXaXEHdmYK",
+        "appSecret": "D814ZyxzevlLiEv5ZS4eegdzZG3jeYytALtFrtTeHOQ26NFEvWs1kCL3jxiGbHZu",
+        "channelAlias": "VFx7uM"
+      },
+      "laundryDevices": [
+        {
+          "name": "Washing Machine",
+          "id": "424714575001911ed8d2",
+          "key": "0a1f7b13a649766d",
+          "powerValueId": "19",
+          "startValue": 20000,
+          "startDuration": 30,
+          "endValue": 300,
+          "endDuration": 30,
+          "startMessage": "⏳ Washing machine started the cycle!",
+          "endMessage": "✅ Washing machine finished!"
+        }
+      ]
+    }
+  ]
+}
