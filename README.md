@@ -109,7 +109,9 @@ The example below contains comments, clean valid JSON version is here: [example/
           // optional start message, omit if you don't want to be notified
           "startMessage": "⏳ Washing machine started the cycle!",
           // optional start message, omit if you don't want to be notified 
-          "endMessage": "✅ Washing machine finished!"
+          "endMessage": "✅ Washing machine finished!",
+          // exposes a dummy switch that will indicate if the appliance is running
+          "exposeStateSwitch": true
         }
       ]
     }

@@ -95,7 +95,7 @@
                 "title": "Expose State Switch",
                 "type": "boolean",
                 "required": false,
-                "description": "Creates fake switch that will indicate current device status, useful for extra automation",
+                "description": "Creates dummy switch that will indicate current device status, useful for extra automation",
                 "default": false
               }
             }
