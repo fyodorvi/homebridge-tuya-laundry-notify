@@ -1,7 +1,7 @@
 import { LaundryDeviceConfig } from '../interfaces/notifyConfig';
 import {PushGateway} from './pushGateway';
 import {DeviceData} from 'tuyapi';
-import {Logger} from 'homebridge';
+import {API, Logger, PlatformAccessory} from 'homebridge';
 import { DateTime } from 'luxon';
 import {LaundryDevice} from './laundryDevice';
 
@@ -13,10 +13,13 @@ export class LaundryDeviceTracker {
   private endDetected?: boolean;
   private endDetectedTime?: DateTime;
 
+  public accessory?: PlatformAccessory;
+
   constructor(
     public readonly log: Logger,
     public readonly pushGateway: PushGateway,
     public config: LaundryDeviceConfig,
+    public api: API,
   ) {
   }
 
@@ -40,6 +43,10 @@ export class LaundryDeviceTracker {
             this.pushGateway.send(this.config.startMessage);
           }
           this.isActive = true;
+          if (this.config.exposeStateSwitch && this.accessory) {
+            const service = this.accessory.getService(this.api.hap.Service.Switch);
+            service?.setCharacteristic(this.api.hap.Characteristic.On, true);
+          }
         }
       }
       if (this.isActive && this.endDetected && this.endDetectedTime) {
@@ -49,6 +56,10 @@ export class LaundryDeviceTracker {
           // send push here if needed
           if (this.config.endMessage) {
             this.pushGateway.send(this.config.endMessage);
+          }
+          if (this.config.exposeStateSwitch && this.accessory) {
+            const service = this.accessory.getService(this.api.hap.Service.Switch);
+            service?.setCharacteristic(this.api.hap.Characteristic.On, false);
           }
           this.isActive = false;
         }

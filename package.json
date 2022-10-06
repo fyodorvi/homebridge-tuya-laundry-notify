@@ -1,5 +1,4 @@
 {
-  "private": true,
   "displayName": "Tuya Landry Notifications",
   "name": "homebridge-tuya-laundry-notify",
   "version": "1.0.0",

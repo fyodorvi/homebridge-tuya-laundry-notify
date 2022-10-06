@@ -7,6 +7,7 @@ import {emptyConfig} from '../__utils__/config';
 import {PlatformConfig} from 'homebridge';
 import {NotifyConfig} from '../../src/interfaces/notifyConfig';
 import {MockedObject} from 'ts-jest/dist/utils/testing';
+import {HomebridgeAPI} from 'homebridge/lib/api';
 
 let mockedLaundryDeviceInstance: Partial<LaundryDevice>;
 
@@ -30,9 +31,11 @@ describe('LaundryDeviceTracker', () => {
   let landryDeviceTracker: LaundryDeviceTracker;
   let config: PlatformConfig & NotifyConfig;
   let mockedPushGatewayInstance: MockedObject<PushGateway>;
+  let api: HomebridgeAPI;
 
   beforeEach(() => {
     config = { ...emptyConfig };
+    api = new HomebridgeAPI();
 
     config.laundryDevices = [
       {
@@ -50,7 +53,7 @@ describe('LaundryDeviceTracker', () => {
     ];
 
     mockedPushGatewayInstance = mocked(new PushGateway(log, config.pushed), true);
-    landryDeviceTracker = new LaundryDeviceTracker(log, mockedPushGatewayInstance, config.laundryDevices[0]);
+    landryDeviceTracker = new LaundryDeviceTracker(log, mockedPushGatewayInstance, config.laundryDevices[0], api);
 
     jest.useFakeTimers();
   });

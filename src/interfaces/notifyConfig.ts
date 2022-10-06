@@ -20,4 +20,5 @@ export interface LaundryDeviceConfig {
     endDuration: number;
     startMessage?: string;
     endMessage: string;
+    exposeStateSwitch?: boolean;
 }
